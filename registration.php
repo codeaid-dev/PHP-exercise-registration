@@ -1,4 +1,24 @@
-<!DOCTYPE html>
+<?php
+  // データベースに接続
+  //$dsn = 'mysql:host=localhost;dbname=tennis;charset=utf8';
+  $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにサービス名を設定
+  $user = 'shopowner'; // Dockerの場合はDBのuser hostは%もしくはIPを指定
+  $password = 'password'; // shopownerに設定したパスワード
+
+  try {
+    $db = new PDO($dsn, $user, $password);
+    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    // プリペアドステートメントを作成
+    $stmt = $db->prepare(
+      "SELECT * FROM bbs ORDER BY date DESC LIMIT :page, :num"
+    );
+    // クエリの実行
+    $stmt->execute();
+  } catch(PDOException $e) {
+    echo "エラー：" . $e->getMessage();
+  }
+?>
+  <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
