@@ -1,6 +1,6 @@
 <?php
   // データベースに接続
-  //$dsn = 'mysql:host=localhost;dbname=tennis;charset=utf8';
+  //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8';
   $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにサービス名を設定
   $user = 'shopowner'; // Dockerの場合はDBのuser hostは%もしくはIPを指定
   $password = 'password'; // shopownerに設定したパスワード
@@ -40,7 +40,7 @@
     <hr>
 
     <div class="container">
-      <form action="register.html" method="post" class="row">
+      <form action="result.html" method="post" class="row">
         <div class="col-sm-8 offset-sm-2">
           <p>以下のフォームにご記入頂き、ユーザー登録してください。</p>
 
