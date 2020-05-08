@@ -1,3 +1,18 @@
+<?php
+  session_start();
+
+  if (isset($_POST['password'])) {
+    // 必須項目チェック（パスワードは半角英数字がそれぞれ1文字以上含む8文字以上32文字以下）
+    if (!preg_match("/^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,32}$/i", $_POST['password'])) {
+      $err['mail'] = "keyword";
+    }
+    if (empty($err)) {
+      $_SESSION['regist'] = $_POST;
+      header('Location: write.php');
+      exit();
+    }
+  }
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -20,7 +35,8 @@
     <hr>
 
     <div class="container">
-      <form action="write.php" method="post" class="row">
+      <form action="" method="post" class="row">
+      <!-- for no check password <form action="write.php" method="post" class="row">-->
         <div class="col-sm-8 offset-sm-2">
           <p>以下のフォームにご記入頂き、ユーザー登録してください。</p>
 
@@ -29,10 +45,14 @@
             <input type="email" id="mail" name="mail" class="form-control" placeholder="kadai@exmaple.org" required>
           </div>
 
-          <div class="form-group pass">
+          <div class="form-group">
             <label for="password">パスワード<span class="badge badge-danger">必須</span></label>
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
           </div>
+
+          <?php if (isset($err['mail']) && $err['mail'] == "keyword"): ?>
+            <p class="alert">※半角英数字がそれぞれ1文字以上含む8文字以上32文字以下にする必要があります</p>
+          <?php endif; ?>
 
           <div class="form-group">
             <label for="name">氏名<span class="badge badge-danger">必須</span></label>
@@ -120,18 +140,5 @@
       <p>&copy; 制作課題 </p>
     </footer>
   </div><!-- footer -->
-
-  <script>
-    document.querySelector('form').addEventListener('submit', (e)=>{
-      let pass = document.getElementById('password').value;
-      if (!pass.match(/^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,32}$/i)) {
-        let elem = document.createElement("div");
-        elem.textContent = "※半角英数字がそれぞれ1文字以上含む8文字以上32文字以下にする必要があります";
-        elem.classList.add("alert");
-        document.getElementById('password').insertAdjacentElement('afterend', elem);
-        e.preventDefault();
-      }
-    });
-  </script>
 </body>
 </html>

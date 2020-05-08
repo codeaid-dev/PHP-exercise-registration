@@ -17,7 +17,8 @@ h1 {
   text-align: right;
 }
 
-.signup {
+.signup,
+.logout {
   margin-top: 40px;
 }
 

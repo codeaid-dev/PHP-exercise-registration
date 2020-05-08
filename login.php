@@ -5,36 +5,40 @@
     // セッションにユーザーIDがある=ログインしている
     // トップページに遷移する
     header('Location: index.php');
-  } else if (isset($_POST['name']) && isset($_POST['password'])) {
-    // ログインしていないがユーザー名とパスワードが送信されたとき
-
+  } else if (isset($_POST['mail']) && isset($_POST['password'])) {
+    // ログインしていないがメールアドレスとパスワードが送信されたとき
+    $mail = $_POST['mail'];
+    $pass = $_POST['password'];
+  
     // データベースに接続
-    //$dsn = 'mysql:host=localhost;dbname=tennis;charset=utf8';
-    $dsn = 'mysql:host=mysql;dbname=tennis;charset=utf8'; // Dockerの場合はhostにサービス名を設定
-    $user = 'tennisuser'; // Dockerの場合はDBのuser hostは%もしくはIPを指定
-    $password = 'password'; // tennisuserに設定したパスワード
+    //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8'; // XAMPPなどの場合
+    $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにサービス名を設定
+    $user = 'shopowner'; // Dockerの場合はDBのuser hostは%もしくはIPを指定
+    $password = 'password'; // shopownerに設定したパスワード
 
     try {
       $db = new PDO($dsn, $user, $password);
       $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
       // プリペアドステートメントを作成
       $stmt = $db->prepare(
-        "SELECT * FROM users WHERE name=:name AND password=:pass"
+        "SELECT * FROM users WHERE mail=:mail AND password=:pass"
       );
       // パラメータを割り当て
-      $stmt->bindParam(':name', $_POST['name'], PDO::PARAM_STR);
-      $stmt->bindParam(':pass', sha1($_POST['password']), PDO::PARAM_STR);
+      $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
+      $stmt->bindParam(':pass', sha1($pass), PDO::PARAM_STR);
       // クエリの実行
       $stmt->execute();
 
       if ($row = $stmt->fetch()) {
+        // ログイン成功
         // ユーザーが存在していたので、セッションにユーザーIDをセット
         $_SESSION['id'] = $row['id'];
         header('Location: index.php');
         exit();
       } else {
+        // ログイン失敗
         // 1レコードも取得できなかったとき
-        // ユーザー名・パスワードが間違っている可能性あり
+        // メールアドレス・パスワードが間違っている可能性あり
         // もう一度ログインフォームを表示
         header('Location: login.php');
         exit();
@@ -67,23 +71,19 @@
     <hr>
 
   <div class="container">
-    <form action="" method="post" class="row">
+    <form action="login.php" method="post" class="row">
       <div class="col-sm-8 offset-sm-2">
         <p>ログインしてください。</p>
 
         <div class="form-group">
-          <label for="email">メールアドレス</label>
-          <input type="email" id="email" name="email" class="form-control" placeholder="kadai@exmaple.org" required>
+          <label for="mail">メールアドレス</label>
+          <input type="email" id="mail" name="mail" class="form-control" placeholder="kadai@exmaple.org" required>
         </div>
 
         <div class="form-group">
-          <label for="pass">パスワード</label>
-          <input type="password" id="password" name="pass" class="form-control" placeholder="Password" required>
+          <label for="password">パスワード</label>
+          <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         </div>
-
-        <?php if ($pass != '' && !preg_match("/^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,32}$/", $pass)): ?>
-          <p class="alert">※半角英数字がそれぞれ1文字以上含む8文字以上32文字以下にする必要があります</p>
-        <?php endif; ?>
 
         <button type="submit" class="btn btn-primary">ログイン</button>
       </div><!-- contents col-sm-8 -->
