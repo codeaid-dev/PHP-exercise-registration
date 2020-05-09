@@ -3,17 +3,18 @@
 
   if (isset($_SESSION['regist'])) {
     // データの受け取り
-    $mail = $_SESSION['regist']['mail'];
-    $pass = $_SESSION['regist']['password'];
-    $name = $_SESSION['regist']['name'];
-    $birthday = $_SESSION['regist']['birthday'];
-    $gender = $_SESSION['regist']['gender'];
-    $zipcode = $_SESSION['regist']['zipcode'];
-    $pref = $_SESSION['regist']['pref'];
-    $city = $_SESSION['regist']['city'];
-    $street = $_SESSION['regist']['street'];
-    $tel = $_SESSION['regist']['tel'];
-    $category = $_SESSION['regist']['category'];
+    $mail = isset($_SESSION['regist']['mail']) ? $_SESSION['regist']['mail'] : '';
+    $pass = isset($_SESSION['regist']['password']) ? $_SESSION['regist']['password'] : '';
+    $name = isset($_SESSION['regist']['name']) ? $_SESSION['regist']['name'] : '';
+    $birthday = isset($_SESSION['regist']['birthday']) ? $_SESSION['regist']['birthday'] : '';
+    $gender = isset($_SESSION['regist']['gender']) ? $_SESSION['regist']['gender'] : '';
+    $zipcode = isset($_SESSION['regist']['zipcode']) ? $_SESSION['regist']['zipcode'] : '';
+    $pref = isset($_SESSION['regist']['pref']) ? $_SESSION['regist']['pref'] : '';
+    $city = isset($_SESSION['regist']['city']) ? $_SESSION['regist']['city'] : '';
+    $street = isset($_SESSION['regist']['street']) ? $_SESSION['regist']['street'] : '';
+    $tel = isset($_SESSION['regist']['tel']) ? $_SESSION['regist']['tel'] : '';
+    $category = isset($_SESSION['regist']['category']) && is_array($_SESSION['regist']['category']) ? $_SESSION['regist']['category'] : [];
+    $category = implode(",", $category);
 
     unset($_SESSION['regist']);
   }
@@ -27,7 +28,7 @@
   }*/
   
   // データベースに接続
-  //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8';
+  //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8'; // XAMPPなどの場合
   $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにサービス名を設定
   $user = 'shopowner'; // Dockerの場合はDBのuser hostは%もしくはIPを指定
   $password = 'password'; // shopownerに設定したパスワード

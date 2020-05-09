@@ -1,19 +1,20 @@
 <?php
-  // データの受け取り（php側でパスワードのエラーチェックをしないとき）
-  $mail = $_POST['mail'];
-  $pass = $_POST['password'];
-  $name = $_POST['name'];
-  $birthday = $_POST['birthday'];
-  $gender = $_POST['gender'];
-  $zipcode = $_POST['zipcode'];
-  $pref = $_POST['pref'];
-  $city = $_POST['city'];
-  $street = $_POST['street'];
-  $tel = $_POST['tel'];
-  $category = $_POST['category'];
+  // データの受け取り
+  $mail = isset($_POST['mail']) ? $_POST['mail'] : '';
+  $pass = isset($_POST['password']) ? $_POST['password'] : '';
+  $name = isset($_POST['name']) ? $_POST['name'] : '';
+  $birthday = isset($_POST['birthday']) ? $_POST['birthday'] : '';
+  $gender = isset($_POST['gender']) ? $_POST['gender'] : '';
+  $zipcode = isset($_POST['zipcode']) ? $_POST['zipcode'] : '';
+  $pref = isset($_POST['pref']) ? $_POST['pref'] : '';
+  $city = isset($_POST['city']) ? $_POST['city'] : '';
+  $street = isset($_POST['street']) ? $_POST['street'] : '';
+  $tel = isset($_POST['tel']) ? $_POST['tel'] : '';
+  $category = isset($_POST['category']) && is_array($_POST['category'])? $_POST['category'] : [];
+  $category = implode(",", $category);
 
 // データベースに接続
-  //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8';
+  //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8'; // XAMPPなどの場合
   $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにサービス名を設定
   $user = 'shopowner'; // Dockerの場合はDBのuser hostは%もしくはIPを指定
   $password = 'password'; // shopownerに設定したパスワード

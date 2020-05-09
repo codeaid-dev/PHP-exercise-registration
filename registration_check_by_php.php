@@ -67,11 +67,11 @@
           <label>性別</label>
           <div class="form-group">
             <div class="form-check form-check-inline radio-inline">
-              <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+              <input class="form-check-input" type="radio" name="gender" id="male" value="男性" checked>
               <lavel class="form-check-label" for="male">男性</lavel>
             </div>
             <div class="form-check form-check-inline radio-inline">
-              <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+              <input class="form-check-input" type="radio" name="gender" id="female" value="女性">
               <lavel class="form-check-label" for="female">女性</lavel>
             </div>
           </div>
@@ -104,27 +104,27 @@
           <label>興味のあるカテゴリ</label>
           <div class="form-group">
             <div class="form-check form-check-inline check-inline">
-                <input class="form-check-input" type="checkbox" name="category" id="cat_1" value="fashion" checked>
+                <input class="form-check-input" type="checkbox" name="category[]" id="cat_1" value="ファッション" checked>
                 <label class="form-check-label" for="cat_1">ファッション</label>
             </div>
             <div class="form-check form-check-inline check-inline">
-                <input class="form-check-input" type="checkbox" name="category" id="cat_2" value="digital" checked>
+                <input class="form-check-input" type="checkbox" name="category[]" id="cat_2" value="エンタメ・デジタル家電" checked>
                 <label class="form-check-label" for="cat_2">エンタメ・デジタル家電</label>
             </div>
             <div class="form-check form-check-inline check-inline">
-                <input class="form-check-input" type="checkbox" name="category" id="cat_3" value="gourmet" checked>
+                <input class="form-check-input" type="checkbox" name="category[]" id="cat_3" value="グルメ" checked>
                 <label class="form-check-label" for="cat_3">グルメ</label>
             </div>
             <div class="form-check form-check-inline check-inline">
-                <input class="form-check-input" type="checkbox" name="category" id="cat_4" value="living" checked>
+                <input class="form-check-input" type="checkbox" name="category[]" id="cat_4" value="住まい・暮らし" checked>
                 <label class="form-check-label" for="cat_4">住まい・暮らし</label>
             </div>
             <div class="form-check form-check-inline check-inline">
-                <input class="form-check-input" type="checkbox" name="category" id="cat_5" value="health" checked>
+                <input class="form-check-input" type="checkbox" name="category[]" id="cat_5" value="美容・健康" checked>
                 <label class="form-check-label" for="cat_5">美容・健康</label>
             </div>
             <div class="form-check form-check-inline check-inline">
-                <input class="form-check-input" type="checkbox" name="category" id="cat_6" value="sports" checked>
+                <input class="form-check-input" type="checkbox" name="category[]" id="cat_6" value="車・スポーツ" checked>
                 <label class="form-check-label" for="cat_6">車・スポーツ</label>
             </div>
           </div>
@@ -137,7 +137,7 @@
     <hr>
   <div class="container">
     <footer>
-      <p>&copy; 制作課題 </p>
+      <p>&copy; 総合演習 </p>
     </footer>
   </div><!-- footer -->
 </body>

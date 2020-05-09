@@ -5,6 +5,7 @@
     // セッションにユーザーIDがある=ログインしている
     // トップページに遷移する
     header('Location: index.php');
+    exit();
   } else if (isset($_POST['mail']) && isset($_POST['password'])) {
     // ログインしていないがメールアドレスとパスワードが送信されたとき
     $mail = $_POST['mail'];
