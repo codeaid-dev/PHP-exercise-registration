@@ -2,9 +2,9 @@
   include 'includes/login.php';
 
   // セッションは継続されているのでidを取得
-  $id = $_SESSION['id'];
+  $id = intval($_SESSION['id']);
 
-    // データベースに接続
+  // データベースに接続
   //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8'; // XAMPPなどの場合
   $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにサービス名を設定
   $user = 'shopowner'; // Dockerの場合はDBのuser hostは%もしくはIPを指定
@@ -47,7 +47,7 @@
     <hr>
 
   <div class="container">
-    <div class="row">
+    <div class="row uinfo">
       <div class="col-sm-8 offset-sm-2">
         <?php
           while ($row = $stmt->fetch()):
@@ -91,7 +91,8 @@
               <td><?php echo $row['tel'] ?></td>
             </tr>
             <tr>
-              <th>興味のあるカテゴリ：</th>
+     
+            <th>興味のあるカテゴリ：</th>
               <td><?php echo $row['category'] ?></td>
             </tr>
           </tbody>
@@ -102,13 +103,18 @@
       </div>
     </div><!-- user info -->
 
-    <div class="logout">
-    <form action="logout.php" method="post" class="row">
-      <div class="col-sm-8 offset-sm-2">
-        <button type="submit" class="btn btn-primary">ログアウト</button>
+    <div class="row">
+      <div class="col-sm-4 offset-sm-2 logout">
+        <form action="logout.php" method="post">
+          <button type="submit" class="btn btn-primary">ログアウト</button>
+        </form><!-- logout -->
       </div>
-    </form>
-    </div><!-- logout -->
+      <div class="col-sm-4 delete">
+        <form action="delete.php" method="post">
+          <button type="submit" class="btn btn-primary">ユーザー削除</button>
+        </form><!-- user delete -->
+      </div>
+    </div>
 
   </div><!-- contents -->
   <hr>

@@ -26,7 +26,8 @@
       );
       // パラメータを割り当て
       $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
-      $stmt->bindParam(':pass', sha1($pass), PDO::PARAM_STR);
+      $passcode = sha1($pass);
+      $stmt->bindParam(':pass', $passcode, PDO::PARAM_STR);
       // クエリの実行
       $stmt->execute();
 

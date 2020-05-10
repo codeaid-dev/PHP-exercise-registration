@@ -18,7 +18,8 @@ h1 {
 }
 
 .signup,
-.logout {
+.logout,
+.delete {
   margin-top: 40px;
 }
 

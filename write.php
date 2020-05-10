@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
   // データの受け取り
   $mail = isset($_POST['mail']) ? $_POST['mail'] : '';
   $pass = isset($_POST['password']) ? $_POST['password'] : '';
@@ -28,11 +31,14 @@
     );
     // パラメータを割り当て
     $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
-    $stmt->bindParam(':pass', sha1($pass), PDO::PARAM_STR);
+    $passcode = sha1($pass);
+    $stmt->bindParam(':pass', $passcode, PDO::PARAM_STR);
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    //$date = new DateTime($birthday);
-    //$stmt->bindParam(':birthday', $date->format('Y-m-d'), PDO::PARAM_STR);
-    $stmt->bindParam(':birthday', $birthday, PDO::PARAM_STR);
+    if (empty($birthday)) {
+      $stmt->bindValue(':birthday', null, PDO::PARAM_NULL);
+    } else {
+      $stmt->bindParam(':birthday', $birthday, PDO::PARAM_STR);
+    }
     $stmt->bindParam(':gender', $gender, PDO::PARAM_STR);
     $stmt->bindParam(':zipcode', $zipcode, PDO::PARAM_STR);
     $stmt->bindParam(':pref', $pref, PDO::PARAM_STR);
