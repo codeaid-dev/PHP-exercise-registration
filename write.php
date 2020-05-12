@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
   // データの受け取り
   $mail = isset($_POST['mail']) ? $_POST['mail'] : '';
   $pass = isset($_POST['password']) ? $_POST['password'] : '';
