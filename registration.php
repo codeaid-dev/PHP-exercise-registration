@@ -110,6 +110,7 @@
           </div>
 
           <button type="submit" class="btn btn-primary">登録</button>
+          <p style="margin-top: 20px;"><a href="index.php">トップへ戻る</a></p>
         </div><!-- contents col-sm-8 -->
       </form>
     </div>

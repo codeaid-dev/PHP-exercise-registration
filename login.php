@@ -1,19 +1,20 @@
 <?php
-  session_start(); // セッション開始
+  session_start();
 
   if (isset($_SESSION['id'])) {
     // セッションにユーザーIDがある=ログインしている
     // トップページに遷移する
     header('Location: index.php');
     exit();
-  } else if (isset($_POST['mail']) && isset($_POST['password'])) {
-    // ログインしていないがメールアドレスとパスワードが送信されたとき
-    $mail = $_POST['mail'];
-    $pass = $_POST['password'];
+  }
+
+  if (isset($_POST['mail']) && isset($_POST['password'])) {
+    $mail = trim($_POST['mail'] ?? '');
+    $pass = trim($_POST['password'] ?? '');
   
     // データベースに接続
-    //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8'; // XAMPPなどの場合
-    $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにサービス名を設定
+    //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8'; // XAMPP/MAMP/VM
+    $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにコンテナ名を設定
     $user = 'shopowner'; // Dockerの場合はDBのuser hostは%もしくはIPを指定
     $password = 'password'; // shopownerに設定したパスワード
 
@@ -21,36 +22,38 @@
       $db = new PDO($dsn, $user, $password);
       $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
       // プリペアドステートメントを作成
-      $stmt = $db->prepare(
-        "SELECT * FROM users WHERE mail=:mail AND password=:pass"
-      );
+      // sha1を使った時はメルアドとパスワードの両方でクエリ
+      //$stmt = $db->prepare("SELECT * FROM users WHERE mail=:mail AND password=:pass");
+      // password_hashを使った時はメルアドでクエリ
+      $stmt = $db->prepare("SELECT * FROM users WHERE mail=:mail");
       // パラメータを割り当て
       $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
-      $passcode = sha1($pass);
-      $stmt->bindParam(':pass', $passcode, PDO::PARAM_STR);
+      //$passcode = sha1($pass);
+      //$stmt->bindParam(':pass', $passcode, PDO::PARAM_STR);
       // クエリの実行
       $stmt->execute();
 
       if ($row = $stmt->fetch()) {
-        // ログイン成功
-        // ユーザーが存在していたので、セッションにユーザーIDをセット
-        $_SESSION['id'] = $row['id'];
-        header('Location: index.php');
-        exit();
-      } else {
-        // ログイン失敗
-        // 1レコードも取得できなかったとき
-        // メールアドレス・パスワードが間違っている可能性あり
-        // もう一度ログインフォームを表示
-        header('Location: login.php');
-        exit();
+        // パスワードをpassword_hashで記録した場合はpassword_verifyでチェック
+        // パスワードをsha1で記録した場合はif文をコメントにする
+        if (password_verify($pass, $row['password'])) {
+          // ログイン成功
+          // セッションにユーザーIDをセット
+          $_SESSION['id'] = $row['id'];
+          header('Location: index.php');
+          exit();
+        }
       }
+      // ログイン失敗
+      // もう一度ログインフォームを表示
+      header('Location: login.php');
+      exit();
     } catch(PDOException $e) {
       die("エラー：" . $e->getMessage());
     }
-  } else {
-    // ログインしていない場合はログインフォームを表示する
+  }
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -111,4 +114,3 @@
 
 </body>
 </html>
-<?php } ?>

@@ -5,10 +5,10 @@
   $id = intval($_SESSION['id']);
 
   // データベースに接続
-  //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8'; // XAMPPなどの場合
-  $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにサービス名を設定
+  //$dsn = 'mysql:host=localhost;dbname=shopping;charset=utf8'; // XAMPP/MAMP/VM
+  $dsn = 'mysql:host=mysql;dbname=shopping;charset=utf8'; // Dockerの場合はhostにコンテナ名を設定
   $user = 'shopowner'; // Dockerの場合はDBのuser hostは%もしくはIPを指定
-  $password = 'password'; // tennisuserに設定したパスワード
+  $password = 'password'; // shopownerに設定したパスワード
 
   try {
     $db = new PDO($dsn, $user, $password);
