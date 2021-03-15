@@ -96,7 +96,7 @@
     <div class="signup">
       <div class="col-sm-8 offset-sm-2">
         <?php if ($error) { ?>
-          <p>メールアドレスはすでに登録されています。</p>
+          <p style="color: red;">メールアドレスはすでに登録されています。</p>
         <?php } else { ?>
           <p>登録完了しました。</p>
         <?php } ?>
